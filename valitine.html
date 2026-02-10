@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Valentine Surprise ❤️</title>
+
+<style>
+    body {
+        margin: 0;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: linear-gradient(135deg, #ff758c, #ff7eb3);
+        font-family: 'Segoe UI', sans-serif;
+        overflow: hidden;
+    }
+
+    .card {
+        background: white;
+        padding: 40px;
+        border-radius: 20px;
+        text-align: center;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        animation: pop 1s ease;
+    }
+
+    @keyframes pop {
+        from { transform: scale(0.5); opacity: 0; }
+        to { transform: scale(1); opacity: 1; }
+    }
+
+    h1 {
+        color: #ff4d6d;
+        margin-bottom: 30px;
+    }
+
+    button {
+        padding: 15px 35px;
+        font-size: 18px;
+        border: none;
+        border-radius: 30px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        position: relative;
+    }
+
+    #yesBtn {
+        background: #ff4d6d;
+        color: white;
+        margin-right: 20px;
+    }
+
+    #yesBtn:hover {
+        transform: scale(1.1);
+        box-shadow: 0 10px 20px rgba(255,77,109,0.5);
+    }
+
+    #noBtn {
+        background: #ccc;
+        color: #333;
+        position: absolute;
+    }
+
+    #message {
+        margin-top: 30px;
+        font-size: 22px;
+        color: #ff4d6d;
+        opacity: 0;
+        transform: scale(0.5);
+        transition: all 0.5s ease;
+    }
+
+    #message.show {
+        opacity: 1;
+        transform: scale(1);
+    }
+</style>
+</head>
+
+<body>
+
+<div class="card">
+    <h1>Will you be my Valentine? 💘</h1>
+
+    <button id="yesBtn">YES</button>
+    <button id="noBtn">NO</button>
+
+    <div id="message">I know you love me ❤️😘</div>
+</div>
+
+<script>
+    const noBtn = document.getElementById("noBtn");
+    const yesBtn = document.getElementById("yesBtn");
+    const message = document.getElementById("message");
+
+    // Move NO button randomly on hover
+    noBtn.addEventListener("mouseover", () => {
+        const x = Math.random() * (window.innerWidth - 100);
+        const y = Math.random() * (window.innerHeight - 50);
+
+        noBtn.style.left = x + "px";
+        noBtn.style.top = y + "px";
+    });
+
+    // YES button action
+    yesBtn.addEventListener("click", () => {
+        message.classList.add("show");
+    });
+
+    // Initial NO button position
+    noBtn.style.left = "50%";
+    noBtn.style.top = "60%";
+</script>
+
+</body>
+</html>
