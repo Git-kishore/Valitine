@@ -2,115 +2,100 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Valentine Surprise ❤️</title>
 
 <style>
-    * {
-        box-sizing: border-box;
-    }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-    body {
-        margin: 0;
-        min-height: 100dvh; /* Fixes mobile vh issue */
-        overflow: hidden;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background: linear-gradient(135deg, #ff4d6d, #ff9a9e);
-        font-family: 'Segoe UI', sans-serif;
-        text-align: center;
-        padding: 20px;
-    }
+html, body {
+    height: 100%;
+    overflow: hidden; /* Removes vertical scroll */
+    font-family: 'Segoe UI', sans-serif;
+}
 
-    .content {
-        color: white;
-        width: 100%;
-        max-width: 420px;
-        position: relative;
-        animation: fadeIn 1s ease;
-        z-index: 2;
-    }
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #ff4d6d, #ff9a9e);
+    text-align: center;
+    padding: 10px;
+}
 
-    @keyframes fadeIn {
-        from { opacity: 0; transform: scale(0.9); }
-        to { opacity: 1; transform: scale(1); }
-    }
+.content {
+    color: white;
+    width: 100%;
+    max-width: 350px;
+}
 
-    h1 {
-        font-size: clamp(32px, 8vw, 42px);
-        margin-bottom: 10px;
-    }
+h1 {
+    font-size: 30px;
+    margin-bottom: 5px;
+}
 
-    h2 {
-        font-size: clamp(20px, 5vw, 26px);
-        margin-bottom: 30px;
-    }
+h2 {
+    font-size: 18px;
+    margin-bottom: 15px;
+}
 
-    button {
-        font-size: clamp(18px, 5vw, 22px);
-        padding: 14px 30px;
-        border: none;
-        border-radius: 30px;
-        cursor: pointer;
-        transition: transform 0.3s;
-        margin: 10px;
-    }
+/* Smaller buttons */
+button {
+    font-size: 16px;
+    padding: 8px 20px;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    margin: 5px;
+}
 
-    #yesBtn {
-        background: white;
-        color: #ff4d6d;
-    }
+#yesBtn {
+    background: white;
+    color: #ff4d6d;
+}
 
-    #yesBtn:hover {
-        transform: scale(1.1);
-    }
+#noBtn {
+    background: #222;
+    color: white;
+    position: fixed;
+}
 
-    #noBtn {
-        background: #222;
-        color: white;
-        position: fixed; /* Keeps inside screen */
-    }
+/* Message */
+#message {
+    margin-top: 15px;
+    font-size: 20px;
+    opacity: 0;
+    transform: scale(0.7);
+    transition: 0.4s ease;
+}
 
-    #message {
-        margin-top: 25px;
-        font-size: clamp(22px, 6vw, 30px);
-        opacity: 0;
-        transform: scale(0.5);
-        transition: all 0.5s ease;
-    }
+#message.show {
+    opacity: 1;
+    transform: scale(1);
+}
 
-    #message.show {
+/* Floating hearts */
+.heart {
+    position: fixed;
+    bottom: -20px;
+    animation: floatUp linear forwards;
+    pointer-events: none;
+}
+
+@keyframes floatUp {
+    from {
+        transform: translateY(0);
         opacity: 1;
-        transform: scale(1);
     }
-
-    /* Floating hearts */
-    .heart {
-        position: fixed;
-        bottom: -20px;
-        animation: floatUp linear forwards;
-        pointer-events: none;
+    to {
+        transform: translateY(-110vh);
+        opacity: 0;
     }
-
-    @keyframes floatUp {
-        from {
-            transform: translateY(0) scale(1);
-            opacity: 1;
-        }
-        to {
-            transform: translateY(-120vh) scale(1.6);
-            opacity: 0;
-        }
-    }
-
-    /* Mobile adjustments */
-    @media (max-width: 480px) {
-        button {
-            width: 100%;
-            max-width: 260px;
-        }
-    }
+}
 </style>
 </head>
 
@@ -133,7 +118,7 @@ const message = document.getElementById("message");
 
 /* Move NO button safely inside screen */
 function moveNoButton() {
-    const padding = 20;
+    const padding = 10;
 
     const maxX = window.innerWidth - noBtn.offsetWidth - padding;
     const maxY = window.innerHeight - noBtn.offsetHeight - padding;
@@ -145,16 +130,13 @@ function moveNoButton() {
     noBtn.style.top = y + "px";
 }
 
-/* Desktop hover */
 noBtn.addEventListener("mouseover", moveNoButton);
-
-/* Mobile touch */
 noBtn.addEventListener("touchstart", (e) => {
     e.preventDefault();
     moveNoButton();
 });
 
-/* YES button action */
+/* YES click */
 yesBtn.addEventListener("click", () => {
     message.classList.add("show");
 });
@@ -163,18 +145,17 @@ yesBtn.addEventListener("click", () => {
 function createHeart() {
     const heart = document.createElement("div");
     heart.classList.add("heart");
-    heart.innerText = "❤️";
+    heart.innerHTML = "❤️";
 
     heart.style.left = Math.random() * 100 + "vw";
-    heart.style.fontSize = (16 + Math.random() * 20) + "px";
-    heart.style.animationDuration = (4 + Math.random() * 3) + "s";
+    heart.style.fontSize = (14 + Math.random() * 10) + "px";
+    heart.style.animationDuration = (3 + Math.random() * 2) + "s";
 
     document.body.appendChild(heart);
-
-    setTimeout(() => heart.remove(), 7000);
+    setTimeout(() => heart.remove(), 5000);
 }
 
-setInterval(createHeart, 400);
+setInterval(createHeart, 600);
 </script>
 
 </body>
