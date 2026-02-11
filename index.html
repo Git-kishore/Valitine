@@ -31,45 +31,57 @@ body {
 
 /* Content */
 .content {
-    color: white;
     width: 100%;
     max-width: 350px;
     position: relative;
     z-index: 2;
+    color: white;
 }
 
-/* Heading with glow */
+/* Glass text class */
+.glass-text {
+    background: linear-gradient(180deg, #ffffff, #ffe6f0);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 2px 5px rgba(255,255,255,0.6),
+                 0 8px 15px rgba(0,0,0,0.3);
+}
+
+/* Headings */
 h1 {
     font-size: 32px;
     font-family: 'Pacifico', cursive;
     margin-bottom: 8px;
-    text-shadow: 0 0 10px rgba(255,255,255,0.8),
-                 0 0 20px rgba(255,255,255,0.6);
 }
 
-/* Subheading with soft shadow */
 h2 {
     font-size: 20px;
     font-weight: 600;
     margin-bottom: 15px;
-    text-shadow: 0 3px 8px rgba(0,0,0,0.3);
 }
 
-/* Buttons */
+/* Buttons with glassy effect */
 button {
     font-family: 'Poppins', sans-serif;
     font-size: 15px;
     font-weight: 600;
     padding: 8px 20px;
-    border: none;
     border-radius: 25px;
     cursor: pointer;
     margin: 5px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    border: 1px solid rgba(255,255,255,0.4);
+    background: rgba(255,255,255,0.25);
+    backdrop-filter: blur(8px);
+    color: white;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    transition: transform 0.3s;
+}
+
+button:hover {
+    transform: scale(1.05);
 }
 
 #yesBtn {
-    background: white;
     color: #ff4d6d;
 }
 
@@ -79,7 +91,7 @@ button {
     position: fixed;
 }
 
-/* Celebration message with strong glow */
+/* Celebration message */
 #message {
     margin-top: 20px;
     font-size: 24px;
@@ -87,9 +99,6 @@ button {
     opacity: 0;
     transform: scale(0.5);
     transition: 0.5s ease;
-    text-shadow: 0 0 15px #fff,
-                 0 0 30px #ffdde1,
-                 0 0 45px #ff4d6d;
 }
 
 #message.show {
@@ -113,14 +122,8 @@ button {
 }
 
 @keyframes floatUp {
-    from {
-        transform: translateY(0) scale(1);
-        opacity: 1;
-    }
-    to {
-        transform: translateY(-120vh) scale(1.5);
-        opacity: 0;
-    }
+    from { transform: translateY(0) scale(1); opacity: 1; }
+    to { transform: translateY(-120vh) scale(1.5); opacity: 0; }
 }
 
 /* Confetti */
@@ -135,10 +138,7 @@ button {
 }
 
 @keyframes fall {
-    to {
-        transform: translateY(110vh) rotate(720deg);
-        opacity: 0;
-    }
+    to { transform: translateY(110vh) rotate(720deg); opacity: 0; }
 }
 </style>
 </head>
@@ -146,13 +146,13 @@ button {
 <body>
 
 <div class="content">
-    <h1>Our Love 💕</h1>
-    <h2>Will you be my Valentine? 💖</h2>
+    <h1>💖 <span class="glass-text">My Love</span> 💕</h1>
+    <h2>💌 <span class="glass-text">Will you be my Valentine?</span> 💖</h2>
 
-    <button id="yesBtn">YES</button>
-    <button id="noBtn">NO</button>
+    <button id="yesBtn"><span class="glass-text">YES</span></button>
+    <button id="noBtn"><span class="glass-text">NO</span></button>
 
-    <div id="message">🎉 Yayyy!!! You are mine forever! 💖🎊</div>
+    <div id="message">🎉 <span class="glass-text">Yayyy!!! You are mine forever!</span> 💖🎊</div>
 </div>
 
 <script>
@@ -195,21 +195,17 @@ function createHeart() {
     document.body.appendChild(heart);
     setTimeout(() => heart.remove(), 8000);
 }
-
 setInterval(createHeart, 500);
 
 /* Confetti */
 function launchConfetti() {
     const colors = ["#ff0", "#ff4d6d", "#00f", "#0f0", "#fff", "#ffa500"];
-
     for (let i = 0; i < 80; i++) {
         const confetti = document.createElement("div");
         confetti.classList.add("confetti");
-
         confetti.style.left = Math.random() * 100 + "vw";
         confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
         confetti.style.animationDuration = (2 + Math.random() * 3) + "s";
-
         document.body.appendChild(confetti);
         setTimeout(() => confetti.remove(), 5000);
     }
