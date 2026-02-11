@@ -6,9 +6,13 @@
 <title>Valentine Surprise ❤️</title>
 
 <style>
+    * {
+        box-sizing: border-box;
+    }
+
     body {
         margin: 0;
-        height: 100vh;
+        min-height: 100dvh; /* Fixes mobile vh issue */
         overflow: hidden;
         display: flex;
         justify-content: center;
@@ -16,39 +20,20 @@
         background: linear-gradient(135deg, #ff4d6d, #ff9a9e);
         font-family: 'Segoe UI', sans-serif;
         text-align: center;
-    }
-
-    /* Floating hearts */
-    .heart {
-        position: absolute;
-        bottom: -20px;
-        animation: floatUp linear infinite;
-        opacity: 0.8;
-        pointer-events: none;
-    }
-
-    @keyframes floatUp {
-        from {
-            transform: translateY(0) scale(1);
-            opacity: 1;
-        }
-        to {
-            transform: translateY(-120vh) scale(1.5);
-            opacity: 0;
-        }
+        padding: 20px;
     }
 
     .content {
         color: white;
-        z-index: 2;
-        padding: 20px;
         width: 100%;
-        max-width: 500px;
+        max-width: 420px;
+        position: relative;
         animation: fadeIn 1s ease;
+        z-index: 2;
     }
 
     @keyframes fadeIn {
-        from { opacity: 0; transform: scale(0.8); }
+        from { opacity: 0; transform: scale(0.9); }
         to { opacity: 1; transform: scale(1); }
     }
 
@@ -64,7 +49,7 @@
 
     button {
         font-size: clamp(18px, 5vw, 22px);
-        padding: 15px 40px;
+        padding: 14px 30px;
         border: none;
         border-radius: 30px;
         cursor: pointer;
@@ -73,7 +58,7 @@
     }
 
     #yesBtn {
-        background: #fff;
+        background: white;
         color: #ff4d6d;
     }
 
@@ -84,11 +69,11 @@
     #noBtn {
         background: #222;
         color: white;
-        position: absolute;
+        position: fixed; /* Keeps inside screen */
     }
 
     #message {
-        margin-top: 30px;
+        margin-top: 25px;
         font-size: clamp(22px, 6vw, 30px);
         opacity: 0;
         transform: scale(0.5);
@@ -100,11 +85,30 @@
         transform: scale(1);
     }
 
-    /* Mobile-specific tweaks */
-    @media (max-width: 600px) {
+    /* Floating hearts */
+    .heart {
+        position: fixed;
+        bottom: -20px;
+        animation: floatUp linear forwards;
+        pointer-events: none;
+    }
+
+    @keyframes floatUp {
+        from {
+            transform: translateY(0) scale(1);
+            opacity: 1;
+        }
+        to {
+            transform: translateY(-120vh) scale(1.6);
+            opacity: 0;
+        }
+    }
+
+    /* Mobile adjustments */
+    @media (max-width: 480px) {
         button {
-            width: 80%;
-            max-width: 280px;
+            width: 100%;
+            max-width: 260px;
         }
     }
 </style>
@@ -119,7 +123,7 @@
     <button id="yesBtn">YES</button>
     <button id="noBtn">NO</button>
 
-    <div id="message">I know you love me ❤️😘</div>
+    <div id="message">I knew you love me ❤️😘</div>
 </div>
 
 <script>
@@ -127,40 +131,47 @@ const yesBtn = document.getElementById("yesBtn");
 const noBtn = document.getElementById("noBtn");
 const message = document.getElementById("message");
 
-// Function to move NO button
+/* Move NO button safely inside screen */
 function moveNoButton() {
-    const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
-    const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
+    const padding = 20;
+
+    const maxX = window.innerWidth - noBtn.offsetWidth - padding;
+    const maxY = window.innerHeight - noBtn.offsetHeight - padding;
+
+    const x = Math.random() * maxX;
+    const y = Math.random() * maxY;
+
     noBtn.style.left = x + "px";
     noBtn.style.top = y + "px";
 }
 
-// Desktop hover
+/* Desktop hover */
 noBtn.addEventListener("mouseover", moveNoButton);
 
-// Mobile touch
+/* Mobile touch */
 noBtn.addEventListener("touchstart", (e) => {
     e.preventDefault();
     moveNoButton();
 });
 
-// YES button
+/* YES button action */
 yesBtn.addEventListener("click", () => {
     message.classList.add("show");
 });
 
-// Floating hearts generator (mobile optimized)
+/* Floating hearts */
 function createHeart() {
     const heart = document.createElement("div");
     heart.classList.add("heart");
     heart.innerText = "❤️";
+
     heart.style.left = Math.random() * 100 + "vw";
     heart.style.fontSize = (16 + Math.random() * 20) + "px";
-    heart.style.animationDuration = (4 + Math.random() * 4) + "s";
+    heart.style.animationDuration = (4 + Math.random() * 3) + "s";
 
     document.body.appendChild(heart);
 
-    setTimeout(() => heart.remove(), 8000);
+    setTimeout(() => heart.remove(), 7000);
 }
 
 setInterval(createHeart, 400);
